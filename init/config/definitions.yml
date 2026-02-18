@@ -178,6 +178,16 @@ defs:
         url: http://lidarr:8686
       examples:
         url: http://127.0.0.1:8686
+      params:
+        - name: split_flac
+          envvar: SPLIT_FLAC
+          default: false
+          recommend: *BOOLEAN
+          short: Split CUE+FLAC files into individual tracks during extraction.
+          desc: |
+            Set this to true to enable CUE+FLAC splitting for Lidarr downloads.
+            When enabled, .cue files are included in extraction so xtractr can
+            split large FLAC files into individual tracks.
     readarr:
       title: Readarr Settings
       prefix: READARR_

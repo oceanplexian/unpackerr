@@ -78,6 +78,7 @@ type Def struct {
 	Defaults      map[string]any `yaml:"defaults"`
 	Examples      map[string]any `yaml:"examples"`
 	DockerExample map[string]any `yaml:"docker_example"`
+	Params        []*Param       `yaml:"params"` // extra params appended to this app's section.
 }
 
 type Defs map[section]*Def
@@ -166,11 +167,16 @@ func openFile(fileName string) (io.ReadCloser, error) {
 }
 
 func createDefinedSection(def *Def, section *Header) *Header {
+	// Copy shared params and append any app-specific extra params.
+	params := make([]*Param, len(section.Params))
+	copy(params, section.Params)
+	params = append(params, def.Params...)
+
 	newSection := &Header{
 		Text:   def.Text,
 		Prefix: def.Prefix,
 		Title:  def.Title,
-		Params: section.Params,
+		Params: params,
 		Kind:   section.Kind,
 	}
 
